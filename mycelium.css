@@ -117,7 +117,7 @@
 }
 
 #mycelium-search-box:focus {
-    border-color: rgba(255, 255, 255, 0.2);
+    border-color: var(--mycelium-accent);
     background: rgba(15, 23, 42, 0.6);
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4), 0 0 0 2px rgba(255, 255, 255, 0.05);
     width: 200px;
@@ -150,7 +150,7 @@
 
 .mycelium-search-result-item:hover {
     background: rgba(255, 255, 255, 0.05);
-    color: #ffffff;
+    color: var(--mycelium-accent);
     padding-left: 20px;
 }
 
@@ -185,8 +185,8 @@
 
 .mycelium-node:hover rect { 
     fill: var(--mycelium-node-hover); 
-    stroke: rgba(255, 255, 255, 0.3); 
-    stroke-width: 1.5px;
+    stroke: var(--mycelium-accent); 
+    stroke-width: 2px;
     filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.5));
 }
 
