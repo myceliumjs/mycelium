@@ -1,0 +1,244 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+
+:root {
+    /* ── Framework Tokens ── */
+    --mycelium-bg-1: #111827;
+    --mycelium-bg-2: #030712;
+    --mycelium-accent: #f8fafc;
+    --mycelium-text-main: #f8fafc;
+    --mycelium-text-muted: #64748b;
+    --mycelium-node-bg: rgba(30, 41, 59, 0.7);
+    --mycelium-node-hover: rgba(45, 62, 88, 0.9);
+    --mycelium-node-border: rgba(255, 255, 255, 0.1);
+    --mycelium-node-text: #f8fafc;
+    --mycelium-link-color: rgba(255, 255, 255, 0.15);
+    --mycelium-rel-bg: rgba(15, 23, 42, 0.8);
+    --mycelium-rel-text: #94a3b8;
+    --mycelium-search-bg: rgba(15, 23, 42, 0.4);
+    --mycelium-glass-blur: 12px;
+    --mycelium-font-main: 'Inter', -apple-system, sans-serif;
+    --mycelium-node-round: 4px;
+    --mycelium-error-color: #f87171;
+}
+
+/* ── Error state ── */
+.mycelium-error {
+    color: var(--mycelium-error-color);
+    font-size: 11px;
+    margin: 6px 0 0 0;
+}
+
+
+/* Target container styles */
+#mycelium {
+    width: 100vw;
+    height: 100vh;
+    background: radial-gradient(circle at center, var(--mycelium-bg-1) 0%, var(--mycelium-bg-2) 100%);
+    font-family: var(--mycelium-font-main);
+    color: var(--mycelium-text-main);
+    overflow: hidden;
+    position: relative;
+    margin: 0;
+    padding: 0;
+}
+
+/* Header */
+#mycelium-header {
+    position: absolute;
+    top: 24px;
+    left: 32px;
+    z-index: 1000;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+#mycelium-logo {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    object-fit: cover;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--mycelium-node-border);
+}
+
+#mycelium-title-group {
+    display: flex;
+    flex-direction: column;
+}
+
+#mycelium-header h2 {
+    margin: 0 0 4px 0;
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    font-size: 18px;
+    color: var(--mycelium-text-main);
+    text-transform: uppercase;
+}
+
+#mycelium-header p {
+    font-size: 11px;
+    color: var(--mycelium-text-muted);
+    margin: 0;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+}
+
+/* Search Container */
+#mycelium-search-container {
+    position: absolute;
+    top: 24px;
+    right: 32px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+#mycelium-search-box {
+    padding: 10px 16px;
+    background: var(--mycelium-search-bg);
+    backdrop-filter: blur(var(--mycelium-glass-blur));
+    -webkit-backdrop-filter: blur(var(--mycelium-glass-blur));
+    border: 1px solid var(--mycelium-node-border);
+    border-radius: 8px;
+    color: var(--mycelium-text-main);
+    font-size: 12px;
+    width: 180px;
+    font-family: var(--mycelium-font-main);
+    outline: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+#mycelium-search-box::placeholder {
+    color: var(--mycelium-text-muted);
+}
+
+#mycelium-search-box:focus {
+    border-color: rgba(255, 255, 255, 0.2);
+    background: rgba(15, 23, 42, 0.6);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4), 0 0 0 2px rgba(255, 255, 255, 0.05);
+    width: 200px;
+}
+
+#mycelium-search-results {
+    position: absolute;
+    top: 48px;
+    right: 0;
+    background: rgba(15, 23, 42, 0.7);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--mycelium-node-border);
+    border-radius: 8px;
+    max-height: 300px;
+    overflow-y: auto;
+    width: 220px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    clip-path: inset(0 -20px -20px -20px);
+}
+
+.mycelium-search-result-item {
+    padding: 10px 16px;
+    cursor: pointer;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    font-size: 11px;
+    color: #cbd5e1;
+    transition: all 0.2s ease;
+}
+
+.mycelium-search-result-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: #ffffff;
+    padding-left: 20px;
+}
+
+.mycelium-search-result-item:last-child {
+    border-bottom: none;
+}
+
+/* SVG container */
+#mycelium-svg-container {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+/* Nodes */
+.mycelium-node {
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.mycelium-node rect { 
+    fill: var(--mycelium-node-bg);
+    backdrop-filter: blur(4px);
+    stroke: var(--mycelium-node-border); 
+    stroke-width: 1px; 
+    cursor: pointer;
+    transition: all 0.3s ease;
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
+}
+
+.mycelium-node:hover rect { 
+    fill: var(--mycelium-node-hover); 
+    stroke: rgba(255, 255, 255, 0.3); 
+    stroke-width: 1.5px;
+    filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.5));
+}
+
+.mycelium-node text { 
+    fill: var(--mycelium-node-text); 
+    font-size: 10px; 
+    text-anchor: middle; 
+    pointer-events: none;
+    font-weight: 500;
+    font-family: var(--mycelium-font-main);
+    letter-spacing: 0.02em;
+}
+
+/* Links */
+.mycelium-link { 
+    stroke: var(--mycelium-link-color); 
+    stroke-width: 1px; 
+    fill: none;
+    opacity: 0.6;
+    transition: all 0.3s ease;
+}
+
+/* Relationship Nodes */
+.mycelium-relationship-node rect { 
+    fill: var(--mycelium-rel-bg); 
+    stroke: rgba(255, 255, 255, 0.05); 
+    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.2));
+}
+
+.mycelium-relationship-node:hover rect {
+    fill: var(--mycelium-node-hover);
+}
+
+.mycelium-relationship-node text { 
+    fill: var(--mycelium-rel-text); 
+    font-size: 8px; 
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+}
+
+/* Scrollbar styling for search results */
+#mycelium-search-results::-webkit-scrollbar {
+    width: 4px;
+}
+#mycelium-search-results::-webkit-scrollbar-track {
+    background: transparent;
+}
+#mycelium-search-results::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+}
+#mycelium-search-results::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.2);
+}

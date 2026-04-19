@@ -1,0 +1,69 @@
+{
+  "Acme Corp": {
+    "children": {
+      "Engineering Dept": { "relation": "department" },
+      "Marketing Dept": { "relation": "department" },
+      "HR Dept": { "relation": "department" },
+      "Jane Doe": { "relation": "ceo" }
+    }
+  },
+  "Engineering Dept": {
+    "children": {
+      "Acme Corp": { "relation": "belongs to" },
+      "Frontend Team": { "relation": "sub-team" },
+      "Backend Team": { "relation": "sub-team" },
+      "John Smith": { "relation": "cto" }
+    }
+  },
+  "Marketing Dept": {
+    "children": {
+      "Acme Corp": { "relation": "belongs to" },
+      "Social Media Team": { "relation": "sub-team" },
+      "Alice Brown": { "relation": "cmo" }
+    }
+  },
+  "HR Dept": {
+    "children": {
+      "Acme Corp": { "relation": "belongs to" },
+      "Recruiting": { "relation": "function" },
+      "Payroll": { "relation": "function" }
+    }
+  },
+  "Frontend Team": {
+    "children": {
+      "Engineering Dept": { "relation": "belongs to" },
+      "UI App": { "relation": "main product" },
+      "React": { "relation": "tech stack" }
+    }
+  },
+  "Backend Team": {
+    "children": {
+      "Engineering Dept": { "relation": "belongs to" },
+      "API Server": { "relation": "main product" },
+      "Node.js": { "relation": "tech stack" },
+      "PostgreSQL": { "relation": "database" }
+    }
+  },
+  "Social Media Team": {
+    "children": {
+      "Marketing Dept": { "relation": "belongs to" },
+      "Twitter": { "relation": "platform" },
+      "LinkedIn": { "relation": "platform" }
+    }
+  },
+  "Jane Doe": {
+    "children": {
+      "Acme Corp": { "relation": "ceo of" }
+    }
+  },
+  "John Smith": {
+    "children": {
+      "Engineering Dept": { "relation": "cto of" }
+    }
+  },
+  "Alice Brown": {
+    "children": {
+      "Marketing Dept": { "relation": "cmo of" }
+    }
+  }
+}

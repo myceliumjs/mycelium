@@ -1,0 +1,27 @@
+{
+  "name": "@myceliumjs/mycelium",
+  "version": "0.1.0",
+  "description": "Lightweight JavaScript framework for interactive ontological network graphs",
+  "main": "mycelium.js",
+  "files": [
+    "mycelium.js",
+    "mycelium.css",
+    "myceliumjs.png"
+  ],
+  "keywords": [
+    "graph",
+    "network",
+    "ontology",
+    "d3",
+    "visualization"
+  ],
+  "author": "MyceliumJS",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/myceliumjs/mycelium"
+  },
+  "scripts": {
+    "dev": "npx -y http-server -c-1"
+  }
+}

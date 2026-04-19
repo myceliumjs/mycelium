@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mycelium.js Example</title>
+
+    <!-- D3.js -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+
+    <!-- Mycelium Framework CSS -->
+    <link rel="stylesheet" href="../../mycelium.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="../../myceliumjs.png">
+
+    <style>
+        body {
+            margin: 0;
+            background-color: #0a0e14;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="mycelium"></div>
+
+    <!-- Mycelium Framework JS -->
+    <script src="../../mycelium.js"></script>
+    <script>
+        Mycelium.init({
+            dataUrl: 'data.json',
+            rootNode: 'Acme Corp',
+            title: 'ACME CORP',
+            subtitle: 'Interactive Mycelium.js Example',
+            logoUrl: '../../myceliumjs.png',
+            containerId: 'mycelium',
+            layout: {
+                radiusDesktop: 450 // Spread nodes further apart
+            },
+            theme: {
+                accent: '#8b5cf6', // Purple accent
+                'node-bg': 'rgba(139, 92, 246, 0.2)', // Light purple nodes
+                'node-hover': 'rgba(139, 92, 246, 0.4)'
+            }
+        });
+    </script>
+</body>
+
+</html>
