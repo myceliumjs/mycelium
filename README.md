@@ -77,7 +77,7 @@ theme: {
 ## 🧩 Ecosystem
 
 *   **[Mycelium Demo / Starter Kit](https://github.com/myceliumjs/mycelium-demo)**: A standalone boilerplate to get you up and running in seconds.
-*   **[Live Demo](https://mycelium-example.pages.dev)**: See Mycelium.js in action on Cloudflare.
+*   **[Live Demo](https://mycelium.yerette.xyz)**: See Mycelium.js in action on the web.
 
 ---
 
