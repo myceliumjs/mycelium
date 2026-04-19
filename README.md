@@ -56,4 +56,4 @@ Mycelium.init({
 | containerId | string | 'mycelium' | ID of the container element |
 
 ## License
-MIT — © Yerette
+MIT — © MyceliumJS
