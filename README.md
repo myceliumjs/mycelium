@@ -1,6 +1,6 @@
 # Mycelium.js 🍄
 
-**Mycelium.js** is a lightweight, production-ready JavaScript framework for building interactive ontological network graphs. 
+**Mycelium.js** is a lightweight, production-ready JavaScript component for building interactive ontological network graphs. 
 
 Built on **D3.js**, it allows you to drop in a hierarchical `data.json` and instantly get a fully functional, navigable, and searchable graph. It is specifically designed for visualizing complex organizational structures, entity networks, and knowledge graphs.
 
@@ -34,7 +34,7 @@ Mycelium.init({
 ```
 
 ### 🌐 CDN / Manual
-Include the library and its D3.js dependency directly in your HTML:
+Include the component and its D3.js dependency directly in your HTML:
 ```html
 <!-- Styles -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@myceliumjs/mycelium/mycelium.css">
@@ -42,7 +42,7 @@ Include the library and its D3.js dependency directly in your HTML:
 <!-- Dependencies -->
 <script src="https://d3js.org/d3.v7.min.js"></script>
 
-<!-- Framework -->
+<!-- Component -->
 <script src="https://cdn.jsdelivr.net/npm/@myceliumjs/mycelium/mycelium.js"></script>
 ```
 
@@ -82,4 +82,4 @@ theme: {
 ---
 
 ## ⚖️ License
-MIT — © 2026 [MyceliumJS](https://github.com/myceliumjs)
+MIT — © 2026 [MyceliumJS](https://myceliumjs.org)
