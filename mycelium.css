@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
 
 :root {
-    /* ── Framework Tokens ── */
+    /* ── Component Tokens ── */
     --mycelium-bg-1: #111827;
     --mycelium-bg-2: #030712;
     --mycelium-accent: #f8fafc;
