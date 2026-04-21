@@ -294,16 +294,8 @@ const Mycelium = (function () {
                         }
                     });
 
-                // Rects
+                // Rects (rendered first but sized after text measurement)
                 node.append('rect')
-                    .attr('width', d => d.isRel
-                        ? Math.min(70, d.label.length * 4.5)
-                        : Math.max(100, d.id.length * 6))
-                    .attr('height', d => d.isRel ? 20 : 36)
-                    .attr('x', d => d.isRel
-                        ? -Math.min(70, d.label.length * 4.5) / 2
-                        : -Math.max(100, d.id.length * 6) / 2)
-                    .attr('y', d => d.isRel ? -10 : -18)
                     .attr('rx', 4);
 
                 // Text with word-wrap for long node names
@@ -336,6 +328,24 @@ const Mycelium = (function () {
                         } else {
                             text.text(label);
                         }
+
+                        // Two-pass approach: Measure the rendered text and size the rect around it
+                        const bbox = this.getBBox();
+                        const paddingX = d.isRel ? 16 : 32;
+                        const paddingY = d.isRel ? 8 : 16;
+
+                        const minW = d.isRel ? 50 : 100;
+                        const minH = d.isRel ? 20 : 36;
+
+                        const finalW = Math.max(minW, bbox.width + paddingX);
+                        const finalH = Math.max(minH, bbox.height + paddingY);
+
+                        // Find the sibling rect inside this node group
+                        d3.select(this.previousSibling)
+                            .attr('width', finalW)
+                            .attr('height', finalH)
+                            .attr('x', -finalW / 2)
+                            .attr('y', bbox.y - paddingY / 2);
                     });
             }
 
