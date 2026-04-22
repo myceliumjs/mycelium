@@ -67,7 +67,7 @@ Include the component and its D3.js dependency directly in your HTML:
 You can customize the look using the `theme` object:
 ```javascript
 theme: {
-  accent: '#10b981',       // Main actionable color
+  accent: '#A98EF5',       // Orbital Purple accent
   'node-bg': '#1f2937',    // Node background
   'bg-dark': '#030712'     // App background
 }
