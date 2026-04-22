@@ -242,3 +242,53 @@
 #mycelium-search-results::-webkit-scrollbar-thumb:hover {
     background: rgba(255, 255, 255, 0.2);
 }
+
+/* ── Mobile Layout Adjustments ── */
+@media screen and (max-width: 768px) {
+    #mycelium-header {
+        top: 16px;
+        left: 16px;
+        gap: 12px;
+    }
+    
+    #mycelium-logo {
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+    }
+    
+    #mycelium-title-group h2 {
+        font-size: 15px;
+        margin-bottom: 2px;
+    }
+    
+    #mycelium-search-container {
+        top: auto;
+        bottom: 24px;
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%);
+        align-items: center;
+        width: 90vw;
+    }
+    
+    #mycelium-search-box {
+        width: 100%;
+        font-size: 14px; /* Prevents iOS auto-zoom */
+        padding: 12px 16px;
+        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+    }
+    
+    #mycelium-search-box:focus {
+        width: 100%;
+        transform: translateY(-4px);
+    }
+    
+    #mycelium-search-results {
+        top: auto;
+        bottom: calc(100% + 12px);
+        width: 100%;
+        max-height: 40vh;
+        clip-path: none;
+    }
+}

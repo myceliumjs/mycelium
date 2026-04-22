@@ -14,6 +14,7 @@ Built on **D3.js**, it allows you to drop in a hierarchical `data.json` and inst
 *   **Fully Customizable**: Comprehensive theme support via CSS Variables and a dynamic JavaScript API.
 *   **Searchable**: Integrated search engine for quickly finding specific nodes in large networks.
 *   **Responsive**: Adaptive layout engine for optimal performance on Desktop and Mobile.
+*   **Smart Layout**: Automatic radius expansion and smart auto-fit camera centering.
 
 ---
 
@@ -59,8 +60,8 @@ Include the component and its D3.js dependency directly in your HTML:
 | `logoUrl` | string | `''` | URL for the optional header icon/logo. |
 | `containerId` | string | `'mycelium'` | ID of the target DOM element. |
 | `theme` | object | `{}` | Key-value pairs for CSS variable overrides. |
-| `layout` | object | `{radiusDesktop: 375, radiusMobile: 200}` | Controls the radial spread. |
-| `zoom` | object | `{min: 0.3, max: 3}` | Controls viewport constraints. |
+| `layout` | object | `{radiusDesktop: 375, radiusMobile: 200, smartExpand: true}` | Controls the radial spread, features dynamic scaling for high-density nodes. |
+| `zoom` | object | `{min: 0.15, max: 3, smartFit: true}` | Controls viewport constraints, features auto-fit framing. |
 
 ### Theme Customization
 You can customize the look using the `theme` object:
@@ -76,6 +77,7 @@ theme: {
 
 ## 🧩 Ecosystem
 
+*   **[Official Website & Documentation](https://myceliumjs.org)**: The official Mycelium.js project homepage.
 *   **[Mycelium Demo / Starter Kit](https://github.com/myceliumjs/mycelium-demo)**: A standalone boilerplate to get you up and running in seconds.
 *   **[Live Demo](https://demo.myceliumjs.org)**: See Mycelium.js in action on the web.
 

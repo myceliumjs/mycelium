@@ -11,25 +11,28 @@ const Mycelium = (function () {
 
     return {
         init: function (options) {
-            const config = Object.assign({
-                dataUrl: 'data.json',
-                rootNode: '',
-                title: '',
-                subtitle: '',
-                logoUrl: '',
-                containerId: 'mycelium',
-                layout: {
+            // Deep merge options securely to protect default nested toggles if partially overridden by user
+            const config = {
+                dataUrl: options.dataUrl || 'data.json',
+                rootNode: options.rootNode || '',
+                title: options.title || '',
+                subtitle: options.subtitle || '',
+                logoUrl: options.logoUrl || '',
+                containerId: options.containerId || 'mycelium',
+                layout: Object.assign({
                     radiusDesktop: 375,
-                    radiusMobile: 200
-                },
-                zoom: {
-                    min: 0.3,
+                    radiusMobile: 200,
+                    smartExpand: true
+                }, options.layout || {}),
+                zoom: Object.assign({
+                    min: 0.15,
                     max: 3,
                     initialDesktop: 0.65,
-                    initialMobile: 0.85
-                },
-                theme: {} // Map of '--mycelium-var': 'value'
-            }, options);
+                    initialMobile: 0.85,
+                    smartFit: true
+                }, options.zoom || {}),
+                theme: options.theme || {}
+            };
 
             if (!config.rootNode) {
                 console.error('Mycelium.init: "rootNode" is required.');
@@ -213,7 +216,17 @@ const Mycelium = (function () {
                 // Guard: nothing to render if no children
                 if (!children.length) return;
 
-                const radius = isMobile ? config.layout.radiusMobile : config.layout.radiusDesktop;
+                const baseRadius = isMobile ? config.layout.radiusMobile : config.layout.radiusDesktop;
+                
+                let radius = baseRadius;
+                if (config.layout.smartExpand) {
+                    // Smart Radius Expansion: organically scale the radius outwards if there are too many children
+                    // to prevent relationship tags from overlapping on the inner ring.
+                    // An arc separation of ~135px is required to comfortably fit max-width tags vertically and horizontally.
+                    const minRequiredRadius = (135 * children.length) / Math.PI;
+                    radius = Math.max(baseRadius, minRequiredRadius);
+                }
+                
                 const angleStep = (2 * Math.PI) / children.length;
 
                 // Build node and link arrays
@@ -240,8 +253,10 @@ const Mycelium = (function () {
                         const relNode = {
                             id: relId,
                             label: info.relation,
-                            x: width / 2 + (x - width / 2) * 0.5,
-                            y: height / 2 + (y - height / 2) * 0.5,
+                            // Push relationship tags further outward (65% instead of 50%)
+                            // because the outer circumference provides vastly more space to prevent overlaps.
+                            x: width / 2 + (x - width / 2) * 0.65,
+                            y: height / 2 + (y - height / 2) * 0.65,
                             isRel: true
                         };
                         nodes.push(relNode);
@@ -254,6 +269,21 @@ const Mycelium = (function () {
                 });
 
                 render(nodes, links, nodeMap);
+
+                // Smart auto-fit zooming: transition viewport smoothly to frame dense networks perfectly without user interaction
+                if (config.zoom.smartFit) {
+                    // Pad the radius calculations since text rectangles stick far out past the pure radial point
+                    const paddedRadius = radius + 150; 
+                    const maxScale = isMobile ? config.zoom.initialMobile : config.zoom.initialDesktop;
+                    // Mathematically guarantee the entire padded diameter fits within the smallest screen axis
+                    const fitScale = Math.min(width, height) / (2 * paddedRadius);
+                    const finalScale = Math.min(fitScale, maxScale); // Prevent zooming in too close on small node counts
+
+                    svg.transition().duration(750)
+                       .call(zoom.transform, d3.zoomIdentity
+                           .translate(width / 2 * (1 - finalScale), height / 2 * (1 - finalScale))
+                           .scale(finalScale));
+                }
             }
 
             function render(nodes, links, nodeMap) {
@@ -307,23 +337,35 @@ const Mycelium = (function () {
                         const text = d3.select(this);
                         const words = label.split(' ');
 
-                        if (words.length > 1 && label.length > 22) {
-                            const lines = [];
+                        // Increase max width for relationships so text wraps wider instead of taller,
+                        // heavily reducing the chance of vertical overlaps between adjacent tags.
+                        const maxWidth = d.isRel ? 110 : 140; // Max width in pixels
+
+                        if (words.length > 1) {
+                            text.text(null);
                             let line = [];
+                            let tspan = text.append('tspan').attr('x', 0).attr('y', 0);
+                            const spans = [tspan];
+
                             words.forEach(word => {
                                 line.push(word);
-                                if (line.join(' ').length > 15) {
-                                    lines.push(line.join(' '));
-                                    line = [];
+                                tspan.text(line.join(' '));
+                                // If adding the word exceeds pixel width, push to new line
+                                if (tspan.node().getComputedTextLength() > maxWidth && line.length > 1) {
+                                    line.pop(); // Remove the word that broke the limit
+                                    tspan.text(line.join(' ')); // Finalize current line
+                                    line = [word]; // Start new line with the word
+                                    tspan = text.append('tspan').attr('x', 0).attr('y', 0).text(word);
+                                    spans.push(tspan);
                                 }
                             });
-                            if (line.length) lines.push(line.join(' '));
 
-                            lines.forEach((l, i) => {
-                                text.append('tspan')
-                                    .text(l)
-                                    .attr('x', 0)
-                                    .attr('dy', i === 0 ? '-0.3em' : '1em');
+                            // Center the entire block vertically based on total number of lines
+                            const lineHeight = 1.2; // ems
+                            const shiftOffset = -(spans.length - 1) * lineHeight / 2;
+                            spans.forEach((s, i) => {
+                                // Since y=0 anchors all to the same baseline, dy acts as an absolute offset!
+                                s.attr('dy', (shiftOffset + (i * lineHeight)) + 'em');
                             });
                         } else {
                             text.text(label);
@@ -331,8 +373,9 @@ const Mycelium = (function () {
 
                         // Two-pass approach: Measure the rendered text and size the rect around it
                         const bbox = this.getBBox();
-                        const paddingX = d.isRel ? 16 : 32;
-                        const paddingY = d.isRel ? 8 : 16;
+                        // Drastically increase padding to guarantee no text kerning/styling escapes the box
+                        const paddingX = d.isRel ? 24 : 40;
+                        const paddingY = d.isRel ? 14 : 24;
 
                         const minW = d.isRel ? 50 : 100;
                         const minH = d.isRel ? 20 : 36;
@@ -340,12 +383,15 @@ const Mycelium = (function () {
                         const finalW = Math.max(minW, bbox.width + paddingX);
                         const finalH = Math.max(minH, bbox.height + paddingY);
 
+                        // True vertical centering calculation (handles clamping bias)
+                        const finalY = bbox.y - (finalH - bbox.height) / 2;
+
                         // Find the sibling rect inside this node group
                         d3.select(this.previousSibling)
                             .attr('width', finalW)
                             .attr('height', finalH)
                             .attr('x', -finalW / 2)
-                            .attr('y', bbox.y - paddingY / 2);
+                            .attr('y', finalY);
                     });
             }
 
@@ -358,13 +404,14 @@ const Mycelium = (function () {
                     n.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '') === hash
                   ) || config.rootNode)
                 : config.rootNode;
-            show(startNode);
-
-            // Initial zoom — slightly zoomed out for context
+            // Initialize the base geometric scale BEFORE rendering the hash route
+            // so dynamic smart scaling can calculate delta from root correctly.
             const initialScale = isMobile ? config.zoom.initialMobile : config.zoom.initialDesktop;
             svg.call(zoom.transform, d3.zoomIdentity
                 .translate(width / 2 * (1 - initialScale), height / 2 * (1 - initialScale))
                 .scale(initialScale));
+
+            show(startNode);
 
             // Node count display
             const nodeCountEl = document.getElementById('mycelium-node-count');
