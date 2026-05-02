@@ -6,7 +6,7 @@ Built on **D3.js**, it allows you to drop in a hierarchical `data.json` and inst
 
 ---
 
-## ✨ Features
+## Features
 
 *   **Radial Navigation Engine**: Intuitive exploration of hierarchical data with automatic centering.
 *   **Navigation History**: Robust state tracking allows "Back" navigation by clicking the center node.
@@ -18,9 +18,9 @@ Built on **D3.js**, it allows you to drop in a hierarchical `data.json` and inst
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
-### 📦 NPM (Recommended)
+### NPM (Recommended)
 ```bash
 npm install @myceliumjs/mycelium
 ```
@@ -34,7 +34,7 @@ Mycelium.init({
 });
 ```
 
-### 🌐 CDN / Manual
+### CDN / Manual
 Include the component and its D3.js dependency directly in your HTML:
 ```html
 <!-- Styles -->
@@ -49,7 +49,7 @@ Include the component and its D3.js dependency directly in your HTML:
 
 ---
 
-## 🛠️ API Options
+## API Options
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
@@ -75,13 +75,13 @@ theme: {
 
 ---
 
-## 🧩 Ecosystem
+## Ecosystem
 
 *   **[Official Website & Documentation](https://myceliumjs.org)**: The official Mycelium.js project homepage.
-*   **[Mycelium Demo / Starter Kit](https://github.com/myceliumjs/mycelium-demo)**: A standalone boilerplate to get you up and running in seconds.
+*   **[Mycelium Demo / Starter Kit](https://github.com/yerettexyz/mycelium-demo)**: A standalone boilerplate to get you up and running in seconds.
 *   **[Live Demo](https://demo.myceliumjs.org)**: See Mycelium.js in action on the web.
 
 ---
 
-## ⚖️ License
-MIT — © 2026 [MyceliumJS](https://myceliumjs.org)
+## License
+MIT
